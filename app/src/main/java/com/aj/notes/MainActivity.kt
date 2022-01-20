@@ -22,24 +22,28 @@ class MainActivity : AppCompatActivity(), INotesRVAdapter {
         val adapter = NotesRVAdapter(this, this)
         binding.recyclerView.adapter = adapter
 
-        viewModel = ViewModelProvider(this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(NoteViewModel::class.java)
-        viewModel.allNotes.observe(this, Observer {list ->
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+        ).get(NoteViewModel::class.java)
+        viewModel.allNotes.observe(this, Observer { list ->
             list?.let {
-                adapter.updateList(it) }
+                adapter.updateList(it)
+            }
         })
 
     }
 
     override fun onItemClicked(note: Note) {
         viewModel.deleteNote(note)
-        Toast.makeText(this, "${note.text} delted", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "${note.text} deleted", Toast.LENGTH_LONG).show()
     }
 
     fun submitData(view: android.view.View) {
         val noteText = binding.input.text.toString()
-        if(noteText.isNotEmpty()) {
+        if (noteText.isNotEmpty()) {
             viewModel.insertNote(Note(noteText))
+            Toast.makeText(this, "$noteText deleted", Toast.LENGTH_LONG).show()
         }
     }
 }
